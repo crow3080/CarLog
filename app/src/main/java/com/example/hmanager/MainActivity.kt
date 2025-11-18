@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.room.*
+import com.example.hmanager.di.appModule
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -38,34 +39,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-// ------------------------------------------------------
-// KOIN MODULE
-// ------------------------------------------------------
-
-val appModule = module {
-
-    // Database
-    single {
-        Room.databaseBuilder(
-            get(),
-            AppDatabase::class.java,
-            "app.db"
-        ).build()
-    }
-
-    // DAO
-    single { get<AppDatabase>().todoDao() }
-
-    // Repository
-    single<TodoRepository> { TodoRepositoryImpl(get()) }
-
-    // ViewModel
-    viewModel { TodoViewModel(get()) }
-}
-
-// ------------------------------------------------------
-// UI (COMPOSABLE)
-// ------------------------------------------------------
 
 @Composable
 fun TodoScreen() {
